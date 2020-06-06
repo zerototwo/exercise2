@@ -12,14 +12,14 @@ import org.apache.hadoop.mapreduce.Reducer;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.util.Tool;
+import org.apache.hadoop.util.ToolRunner;
 
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.StringTokenizer;
 
-public class WordCount extends Configured implements Tool {
+public class MapReduceTemplete extends Configured  implements Tool {
 
-    public static class  WordCountMapper extends Mapper<LongWritable, Text,Text, IntWritable>{
+    public static class  ModuleMapper extends Mapper<LongWritable, Text,Text, IntWritable> {
 
         private Text mapOutputKey = new Text();
         private final static IntWritable mapOutputValue = new IntWritable(1);
@@ -27,32 +27,37 @@ public class WordCount extends Configured implements Tool {
 
         @Override
         public void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
-            String lineValue = value.toString();
-            StringTokenizer stringTokenizer = new StringTokenizer(lineValue);
 
-            while (stringTokenizer.hasMoreTokens()) {
 
-                String wordValue = stringTokenizer.nextToken();
-                mapOutputKey.set(wordValue);
-                context.write(mapOutputKey,mapOutputValue);
-            }
+        }
 
+        @Override
+        protected void setup(Context context) throws IOException, InterruptedException {
+            super.setup(context);
+        }
+
+        @Override
+        protected void cleanup(Context context) throws IOException, InterruptedException {
+            super.cleanup(context);
         }
     }
 
-    public static class  WordCountReduce extends Reducer<Text, IntWritable,Text, IntWritable> {
+    public static class  ModuleReduce extends Reducer<Text, IntWritable,Text, IntWritable> {
 
         private final static IntWritable mapOutputValue = new IntWritable();
         @Override
         public void reduce(Text key, Iterable<IntWritable> values, Context context) throws IOException, InterruptedException {
-            int sum = 0;
-            for (IntWritable value : values) {
 
-                sum += value.get();
-            }
-            mapOutputValue.set(sum);
+        }
 
-            context.write(key,mapOutputValue);
+        @Override
+        protected void setup(Context context) throws IOException, InterruptedException {
+            super.setup(context);
+        }
+
+        @Override
+        protected void cleanup(Context context) throws IOException, InterruptedException {
+            super.cleanup(context);
         }
     }
 
@@ -68,11 +73,22 @@ public class WordCount extends Configured implements Tool {
         Path inPath = new Path(strings[0]);
         FileInputFormat.addInputPath(job, inPath);
         //3.2:map
-        job.setMapperClass(WordCountMapper.class);
+        job.setMapperClass(ModuleMapper.class);
         job.setOutputKeyClass(Text.class);
         job.setOutputValueClass(IntWritable.class);
+        /**********shuffle***************************************************************************************/
+        //1)partitioner
+        //job.setPartitionerClass();
+        //2)sort
+        //job.setSortComparatorClass();
+        //3)option conbine
+        //job.setCombinerClass();
+        //4) group
+        //job.setGroupingComparatorClass();
+
+        /******************************************************************************************************/
         //3.3 reduce
-        job.setReducerClass(WordCountReduce.class);
+        job.setReducerClass(ModuleReduce.class);
         job.setOutputKeyClass(Text.class);
         job.setOutputValueClass(IntWritable.class);
 
@@ -87,8 +103,10 @@ public class WordCount extends Configured implements Tool {
     }
 
     public static void main(String[] args) throws Exception {
+        Configuration configuration = new Configuration();
 
-        int status = new WordCount().run(args);
+        int status = ToolRunner.run(configuration, (Tool) new ModuleMapper(), args);
+
         System.exit(status);
     }
 }

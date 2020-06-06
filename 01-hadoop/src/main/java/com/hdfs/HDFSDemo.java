@@ -15,17 +15,28 @@ public class HDFSDemo {
 
     public static void main(String[] args) throws  Exception {
 
+        InetAddress ia=null;
+                 try {
+                         ia=ia.getLocalHost();
 
-        FileSystem fileSystem = getFileSystem();
-
-        String fileName = "/user/lpp/put-wc.input";
-        Path path = new Path(fileName);
-        FSDataOutputStream fsDataOutputStream = fileSystem.create(path);
-        FileInputStream fileInputStream = new FileInputStream("D:\\workinstall\\exercise\\01-hadoop\\src\\main\\resources\\wc");
-
-        IOUtils.copyBytes(fileInputStream, fsDataOutputStream, 4096, false);
-        IOUtils.closeStream(fileInputStream);
-        IOUtils.closeStream(fsDataOutputStream);
+                        String localname=ia.getHostName();
+                        String localip=ia.getHostAddress();
+                        System.out.println("本机名称是："+ localname);
+                        System.out.println("本机的ip是 ："+localip);
+                    } catch (Exception e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                     }
+//        FileSystem fileSystem = getFileSystem();
+//
+//        String fileName = "/user/lpp/put-wc.input";
+//        Path path = new Path(fileName);
+//        FSDataOutputStream fsDataOutputStream = fileSystem.create(path);
+//        FileInputStream fileInputStream = new FileInputStream("D:\\workinstall\\exercise\\01-hadoop\\src\\main\\resources\\wc");
+//
+//        IOUtils.copyBytes(fileInputStream, fsDataOutputStream, 4096, false);
+//        IOUtils.closeStream(fileInputStream);
+//        IOUtils.closeStream(fsDataOutputStream);
     }
 
     /**
