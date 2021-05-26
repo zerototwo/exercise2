@@ -18,7 +18,7 @@ public class TopicRecvX {
         //2.声明队列
         channel.queueDeclare(QUEUE_NAME, false, false, false, null);
         //3.绑定队列和交换机
-        channel.queueBind(QUEUE_NAME, EXCHANGE_NAME, "routekey1");
+        channel.queueBind(QUEUE_NAME, EXCHANGE_NAME, "routekey.kk");
 
         //4.服务器发送信息数
         channel.basicQos(1);

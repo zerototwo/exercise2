@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="01-hadoop" />
+        <module name="02-rabbitmq" />
+        <module name="algo" />
+        <module name="dataStructure" />
+        <module name="demo-nacos" />
+        <module name="flinkdemo" />
+        <module name="hystrix" />
+        <module name="juc" />
+        <module name="scala" />
+        <module name="shence" />
+        <module name="spark-rdd" />
+        <module name="web-demo" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="01-hadoop" target="1.8" />
+      <module name="02-hadoop" target="1.8" />
+      <module name="02-rabbitmq" target="1.8" />
+      <module name="03-boot-rabbitmq" target="1.8" />
+      <module name="algo" target="1.8" />
+      <module name="dataStructure" target="1.8" />
+      <module name="demo" target="1.8" />
+      <module name="demo-nacos" target="1.8" />
+      <module name="flinkdemo" target="1.8" />
+      <module name="hystrix" target="1.8" />
+      <module name="juc" target="1.8" />
+      <module name="scala" target="1.8" />
+      <module name="shence" target="1.8" />
+      <module name="spark-rdd" target="1.8" />
+      <module name="web-demo" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="02-hadoop" options="-parameters" />
+      <module name="02-rabbitmq" options="-parameters" />
+      <module name="03-boot-rabbitmq" options="-parameters" />
+      <module name="demo" options="-parameters" />
+      <module name="demo-nacos" options="-parameters" />
+      <module name="hystrix" options="-parameters" />
+      <module name="shence" options="-parameters" />
+      <module name="web-demo" options="-parameters" />
+    </option>
+  </component>
+</project>

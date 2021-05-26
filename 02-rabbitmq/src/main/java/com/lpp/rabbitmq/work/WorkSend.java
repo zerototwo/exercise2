@@ -3,7 +3,7 @@ package com.lpp.rabbitmq.work;
 import com.ConnectionUtil;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
-import com.sun.org.apache.bcel.internal.generic.NEW;
+
 
 public class WorkSend {
 

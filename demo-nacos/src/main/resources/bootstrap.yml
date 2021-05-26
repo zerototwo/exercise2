@@ -1,0 +1,32 @@
+spring:
+  application:
+    name: lpp
+  profiles:
+    active: @env@
+
+  # 配置中心
+  cloud:
+    nacos:
+      config:
+        server-addr: ${spring.cloud.nacos.config.server-addr}
+        file-extension: yml
+
+---
+
+spring:
+  profiles: dev
+  cloud:
+    nacos:
+      config:
+        namespace: 35cb5680-b1ba-4846-a2f8-4806c7886812
+        server-addr: localhost:8848
+        shared-configs[0]:
+          data-id: demo.yml
+          group: DEFAULT_GROUP
+          refresh: true
+
+      discovery:
+        namespace: 35cb5680-b1ba-4846-a2f8-4806c7886812
+        server-addr: localhost:8848
+
+

@@ -1,0 +1,112 @@
+Index: 01-hadoop/src/main/java/com/hdfs/HDFSDemo.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- 01-hadoop/src/main/java/com/hdfs/HDFSDemo.java	(revision e28bca806c5edcc7baf33fa34c4a4392cc1ac3cc)
++++ 01-hadoop/src/main/java/com/hdfs/HDFSDemo.java	(date 1590156068080)
+@@ -15,17 +15,28 @@
+ 
+     public static void main(String[] args) throws  Exception {
+ 
+-
+-        FileSystem fileSystem = getFileSystem();
++        InetAddress ia=null;
++                 try {
++                         ia=ia.getLocalHost();
+ 
+-        String fileName = "/user/lpp/put-wc.input";
+-        Path path = new Path(fileName);
+-        FSDataOutputStream fsDataOutputStream = fileSystem.create(path);
+-        FileInputStream fileInputStream = new FileInputStream("D:\\workinstall\\exercise\\01-hadoop\\src\\main\\resources\\wc");
+-
+-        IOUtils.copyBytes(fileInputStream, fsDataOutputStream, 4096, false);
+-        IOUtils.closeStream(fileInputStream);
+-        IOUtils.closeStream(fsDataOutputStream);
++                        String localname=ia.getHostName();
++                        String localip=ia.getHostAddress();
++                        System.out.println("本机名称是："+ localname);
++                        System.out.println("本机的ip是 ："+localip);
++                    } catch (Exception e) {
++                        // TODO Auto-generated catch block
++                        e.printStackTrace();
++                     }
++//        FileSystem fileSystem = getFileSystem();
++//
++//        String fileName = "/user/lpp/put-wc.input";
++//        Path path = new Path(fileName);
++//        FSDataOutputStream fsDataOutputStream = fileSystem.create(path);
++//        FileInputStream fileInputStream = new FileInputStream("D:\\workinstall\\exercise\\01-hadoop\\src\\main\\resources\\wc");
++//
++//        IOUtils.copyBytes(fileInputStream, fsDataOutputStream, 4096, false);
++//        IOUtils.closeStream(fileInputStream);
++//        IOUtils.closeStream(fsDataOutputStream);
+     }
+ 
+     /**
+Index: 01-hadoop/src/main/java/com/mapreduce/WordCount.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- 01-hadoop/src/main/java/com/mapreduce/WordCount.java	(revision e28bca806c5edcc7baf33fa34c4a4392cc1ac3cc)
++++ 01-hadoop/src/main/java/com/mapreduce/WordCount.java	(date 1589618402490)
+@@ -1,6 +1,7 @@
+ package com.mapreduce;
+ 
+ import org.apache.hadoop.conf.Configuration;
++import org.apache.hadoop.conf.Configured;
+ import org.apache.hadoop.fs.Path;
+ import org.apache.hadoop.io.IntWritable;
+ import org.apache.hadoop.io.LongWritable;
+@@ -10,12 +11,13 @@
+ import org.apache.hadoop.mapreduce.Reducer;
+ import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
+ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
++import org.apache.hadoop.util.Tool;
+ 
+ import java.io.FileOutputStream;
+ import java.io.IOException;
+ import java.util.StringTokenizer;
+ 
+-public class WordCount {
++public class WordCount extends Configured implements Tool {
+ 
+     public static class  WordCountMapper extends Mapper<LongWritable, Text,Text, IntWritable>{
+ 
+@@ -54,8 +56,8 @@
+         }
+     }
+ 
+-    public static int run(String[] args) throws Exception {
+-
++    @Override
++    public int run(String[] strings) throws Exception {
+         //1.configuration
+         Configuration conf = new Configuration();
+         //2.create job
+@@ -63,7 +65,7 @@
+         //3.set job
+         //input-->map->reduce->output
+         //3.1:input
+-        Path inPath = new Path(args[0]);
++        Path inPath = new Path(strings[0]);
+         FileInputFormat.addInputPath(job, inPath);
+         //3.2:map
+         job.setMapperClass(WordCountMapper.class);
+@@ -75,14 +77,13 @@
+         job.setOutputValueClass(IntWritable.class);
+ 
+         //3.4 output
+-        Path outPath = new Path(args[1]);
++        Path outPath = new Path(strings[1]);
+         FileOutputFormat.setOutputPath(job, outPath);
+ 
+         //4:submit job
+         boolean isSuccess = job.waitForCompletion(true);
+ 
+         return isSuccess ? 0:1;
+-
+     }
+ 
+     public static void main(String[] args) throws Exception {
